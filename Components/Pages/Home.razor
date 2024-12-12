@@ -1,0 +1,108 @@
+﻿@page "/{filter?}"
+@rendermode InteractiveServer
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@using TestBlazor.Models
+
+<div class="todoapp">
+    <header class="header">
+        <h1>todos</h1>
+        <div class="input-container">
+            <input type="text" class="new-todo" placeholder="What needs to be done?" @bind="text"
+                @onkeyup="HandleKeyUp">
+        </div>
+    </header>
+    <main>
+        <div class="toggle-all-container">
+            <input type="checkbox" class="toggle-all">
+            <label for="toggle-all">Toggle All Input</label>
+        </div>
+        <ul class="todo-list">
+            @foreach (var todo in FilterTodos())
+            {
+                <Todo todo="todo" RemoveItem="RemoveItem" UpdateStorage="UpdateStorage" />
+            }
+        </ul>
+    </main>
+    @if (todos.Count != 0)
+    {
+        <footer class="footer">
+            <span class="todo-count">@activeCount @((activeCount > 1) ? "items" : "item") left!</span>
+            <ul class="filters">
+                <li>
+                    <a href="/">All</a>
+                </li>
+                <li>
+                    <a href="/active">Active</a>
+                </li>
+                <li>
+                    <a href="/completed">Completed</a>
+                </li>
+            </ul>
+            <button class="clear-completed" @onclick="ClearCompleted">Clear completed</button>
+        </footer>
+    }
+</div>
+
+<footer class="info">
+    <p>Double-click to edit a todo</p>
+    <p>Created by the TodoMVC Team</p>
+    <p>Part of <a href="#">TodoMVC</a></p>
+</footer>
+
+@code {
+    [Parameter]
+    public string filter { get; set; } = "";
+    private List<TodoItem> todos = new();
+    private int activeCount => todos.Count(t => !t.IsDone);
+    private string text = string.Empty;
+
+    // Helper functions
+    private List<TodoItem> FilterTodos()
+    {
+        return filter switch
+        {
+            "active" => todos.Where(t => !t.IsDone).ToList(),
+            "completed" => todos.Where(t => t.IsDone).ToList(),
+            _ => todos
+        };
+    }
+    private async Task UpdateStorage() => await LocalStorage.SetItemAsync("todos", todos);
+
+    // Lifecycle functions
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            todos = await LocalStorage.GetItemAsync<List<TodoItem>>("todos") ?? todos;
+
+            StateHasChanged();
+        }
+    }
+
+    // Event Handlers
+    private async void HandleKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            todos.Add(new TodoItem
+                {
+                    Title = text
+                });
+            text = string.Empty;
+            await UpdateStorage();
+        }
+    }
+    private async Task ClearCompleted(MouseEventArgs e)
+    {
+        todos.RemoveAll(t => t.IsDone);
+        await UpdateStorage();
+    }
+
+    // Child function parameters
+    public async void RemoveItem(TodoItem todo)
+    {
+        todos.Remove(todo);
+        await UpdateStorage();
+    }
+
+}

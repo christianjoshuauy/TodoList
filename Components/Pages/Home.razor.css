@@ -1,0 +1,148 @@
+.todoapp {
+  position: relative;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  margin: 130px 0 40px;
+  background: #fff;
+}
+
+.todoapp h1 {
+  color: #b83f45;
+  font-size: 80px;
+  font-weight: 200;
+  position: absolute;
+  text-align: center;
+  top: -140px;
+  width: 100%;
+}
+
+.new-todo {
+  background: rgba(0, 0, 0, 0.003);
+  border: none;
+  box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+  height: 65px;
+  padding: 16px 16px 16px 60px;
+}
+
+.new-todo {
+  box-sizing: border-box;
+  color: inherit;
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: inherit;
+  line-height: 1.4em;
+  margin: 0;
+  position: relative;
+  width: 100%;
+}
+
+.new-todo:focus {
+  outline: none;
+  box-shadow: 0 0 2px 2px #cf7d7d;
+}
+
+.new-todo::placeholder {
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.main {
+  border-top: 1px solid #e6e6e6;
+  position: relative;
+  z-index: 2;
+}
+
+.toggle-all {
+  display: none;
+  border: none;
+  bottom: 40%;
+  opacity: 0;
+  position: absolute;
+  height: 60px !important;
+  right: auto !important;
+  width: 40px !important;
+}
+
+.toggle-all + label {
+  align-items: center;
+  display: flex;
+  font-size: 0;
+  height: 65px;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  top: -65px;
+  width: 45px;
+}
+
+.footer {
+  border: 1px solid #e6e6e6;
+  font-size: 15px;
+  height: 40px;
+  padding: 10px 15px;
+  text-align: center;
+}
+
+.todo-count {
+  float: left;
+  text-align: left;
+}
+
+.filters {
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 0;
+}
+
+.filters li {
+  display: inline;
+}
+
+.filters li a {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: inherit;
+  text-decoration: none;
+  margin: 3px;
+  padding: 3px 7px;
+}
+
+.filters li a.selected {
+  border-color: #ce4646;
+}
+
+.clear-completed {
+  cursor: pointer;
+  background: inherit;
+  float: right;
+  line-height: 19px;
+  position: relative;
+  text-decoration: none;
+  border: none;
+}
+
+.todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.info {
+  color: #4d4d4d;
+  font-size: 11px;
+  margin: 65px auto 0;
+  text-align: center;
+  text-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.5);
+}
+
+.info p {
+  line-height: 1;
+}
+
+.info a {
+  color: inherit;
+  font-weight: 400;
+  text-decoration: none;
+}

@@ -1,0 +1,20 @@
+﻿@using TestBlazor.Models
+
+<li class="todo-item @((todo.IsDone) ? "completed" : "")">
+    <div>
+        <input class="toggle" type="checkbox" @bind="todo.IsDone" @bind:after="UpdateCheckbox">
+        <label class="title">@todo.Title</label>
+        <button class="destroy" @onclick="OnRemoveClick"></button>
+    </div>
+</li>
+
+@code {
+    [Parameter]
+    public required TodoItem todo { get; set; }
+    [Parameter]
+    public EventCallback<TodoItem> RemoveItem { get; set; }
+    [Parameter]
+    public EventCallback<TodoItem> UpdateStorage { get; set; }
+    private async Task OnRemoveClick(MouseEventArgs e) => await RemoveItem.InvokeAsync(todo);
+    private async void UpdateCheckbox() => await UpdateStorage.InvokeAsync();
+}
