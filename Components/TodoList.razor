@@ -1,0 +1,29 @@
+﻿@using TestBlazor.Models
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<ul class="todo-list">
+    @foreach (var todo in FilterTodos())
+    {
+        <Todo todo="todo" RemoveItem="RemoveItem" UpdateStorage="UpdateStorage" IsEditing="todo == editingTodo"
+            OnStartEditing="SetEditingTodo" OnStopEditing="ClearEditingTodo" />
+    }
+</ul>
+@code {
+    [Parameter]
+    public required List<TodoItem> Todos { get; set; }
+    [Parameter]
+    public EventCallback UpdateStorage { get; set; }
+    [Parameter]
+    public required Func<List<TodoItem>> FilterTodos { get; set; }
+    private TodoItem? editingTodo;
+
+    // Child function parameters
+    public async void RemoveItem(TodoItem todo)
+    {
+        Todos.Remove(todo);
+        await UpdateStorage.InvokeAsync();
+    }
+    // Toggle editing
+    private void SetEditingTodo(TodoItem todo) => editingTodo = todo;
+    private void ClearEditingTodo() => editingTodo = null;
+}

@@ -1,12 +1,12 @@
 ﻿@using TestBlazor.Models
-@inject IJSRuntime JSRuntime
 
 <li class="todo-item @((todo.IsDone) ? "completed" : "")">
     <div>
         @if (IsEditing)
         {
             <div class="input-container">
-                <input class="edit" type="text" @bind="todo.Title" @onkeyup="HandleKeyUp" @onfocusout="HandleFocusOut">
+                <input class="edit" @ref="editInput" type="text" @bind="todo.Title" @onkeyup="HandleKeyUp"
+                    @onfocusout="HandleFocusOut">
             </div>
         }
         else
@@ -32,6 +32,7 @@
     [Parameter]
     public EventCallback OnStopEditing { get; set; }
     private bool focusRequested = false;
+    private ElementReference editInput;
     private async Task OnRemoveClick(MouseEventArgs e) => await RemoveItem.InvokeAsync(todo);
     private async void UpdateCheckbox() => await UpdateStorage.InvokeAsync();
     private async void HandleDoubleClick(MouseEventArgs e)
@@ -44,7 +45,7 @@
     {
         if (e.Key == "Enter" && todo.Title.Length > 1)
         {
-            await JSRuntime.InvokeVoidAsync("eval", "document.activeElement.blur()");
+            await OnStopEditing.InvokeAsync();
             await UpdateStorage.InvokeAsync();
         }
     }
@@ -53,7 +54,7 @@
     {
         if (focusRequested)
         {
-            await JSRuntime.InvokeVoidAsync("eval", @"document.querySelector('.edit').focus();");
+            await editInput.FocusAsync();
             focusRequested = false;
         }
     }

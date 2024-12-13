@@ -8,7 +8,7 @@
         <h1>todos</h1>
         <div class="input-container">
             <input type="text" class="new-todo" placeholder="What needs to be done?" @bind="text"
-                @onkeyup="HandleKeyUp">
+                @onkeyup="HandleNewTodoKeyUp">
         </div>
     </header>
     <main>
@@ -19,13 +19,7 @@
                 <label class="toggle-all-label">Toggle All Input</label>
             </div>
         }
-        <ul class="todo-list">
-            @foreach (var todo in FilterTodos())
-            {
-                <Todo todo="todo" RemoveItem="RemoveItem" UpdateStorage="UpdateStorage" IsEditing="todo == editingTodo"
-                    OnStartEditing="SetEditingTodo" OnStopEditing="ClearEditingTodo" />
-            }
-        </ul>
+        <TodoList Todos="todos" UpdateStorage="UpdateStorage" FilterTodos="FilterTodos" />
     </main>
     @if (todos.Count != 0)
     {
@@ -53,7 +47,6 @@
     private List<TodoItem> todos = new();
     private int activeCount => todos.Count(t => !t.IsDone);
     private string text = string.Empty;
-    private TodoItem? editingTodo;
 
     // Helper functions
     private List<TodoItem> FilterTodos()
@@ -79,7 +72,7 @@
     }
 
     // Event Handlers
-    private async void HandleKeyUp(KeyboardEventArgs e)
+    private async void HandleNewTodoKeyUp(KeyboardEventArgs e)
     {
         if (e.Key == "Enter" && text.Length > 1)
         {
@@ -116,15 +109,4 @@
         }
         await UpdateStorage();
     }
-
-    // Child function parameters
-    public async void RemoveItem(TodoItem todo)
-    {
-        todos.Remove(todo);
-        await UpdateStorage();
-    }
-
-    // Toggle editing
-    private void SetEditingTodo(TodoItem todo) => editingTodo = todo;
-    private void ClearEditingTodo() => editingTodo = null;
 }
