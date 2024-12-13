@@ -13,7 +13,7 @@
     </header>
     <main>
         <div class="toggle-all-container">
-            <input type="checkbox" class="toggle-all">
+            <input type="checkbox" class="toggle-all" @onclick="HandleToggleAllClick">
             <label class="toggle-all-label">Toggle All Input</label>
         </div>
         <ul class="todo-list">
@@ -93,13 +93,26 @@
         todos.RemoveAll(t => t.IsDone);
         await UpdateStorage();
     }
-
-    //Toggle all logic (assume todos is filtered)
-    //if filter == "" ?
-    // activeCount == 0 ?
-    // todos.ForEach(t => t.IsDone = false)
-    // : todos.ForEach(t => t.IsDone = true)
-    // : todos.ForEach(t => t.IsDone = !t.IsDone)
+    private async void HandleToggleAllClick(MouseEventArgs e)
+    {
+        var filteredTodos = FilterTodos();
+        if (filter == string.Empty)
+        {
+            if (activeCount == 0)
+            {
+                filteredTodos.ForEach(t => t.IsDone = false);
+            }
+            else
+            {
+                filteredTodos.ForEach(t => t.IsDone = true);
+            }
+        }
+        else
+        {
+            filteredTodos.ForEach(t => t.IsDone = !t.IsDone);
+        }
+        await UpdateStorage();
+    }
 
     // Child function parameters
     public async void RemoveItem(TodoItem todo)
