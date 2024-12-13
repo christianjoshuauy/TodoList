@@ -16,7 +16,8 @@
         @if (FilterTodos().Count != 0)
         {
             <div class="toggle-all-container">
-                <input type="checkbox" class="toggle-all" @onclick="HandleToggleAllClick" checked="@(activeCount == 0)">
+                <input type="checkbox" class="toggle-all" @onclick="HandleToggleAllClick"
+                    checked="@(activeTodosCount == 0)">
                 <label class="toggle-all-label">Toggle All Input</label>
             </div>
         }
@@ -25,7 +26,7 @@
     @if (todos.Count != 0)
     {
         <footer class="footer">
-            <span class="todo-count">@activeCount @((activeCount > 1) ? "items" : "item") left!</span>
+            <span class="todo-count">@activeTodosCount @((activeTodosCount > 1) ? "items" : "item") left!</span>
             <ul class="filters">
                 <li>
                     <NavLink href="/" Match="NavLinkMatch.All" ActiveClass="selected">All</NavLink>
@@ -37,7 +38,7 @@
                     <NavLink href="/completed" ActiveClass="selected">Completed</NavLink>
                 </li>
             </ul>
-            <button class="clear-completed" @onclick="ClearCompleted" disabled="@(activeCount == todos.Count)">Clear
+            <button class="clear-completed" @onclick="ClearCompleted" disabled="@(activeTodosCount == todos.Count)">Clear
                 completed</button>
         </footer>
     }
@@ -47,7 +48,7 @@
     [Parameter]
     public string filter { get; set; } = "";
     private List<TodoItem> todos = new();
-    private int activeCount => todos.Count(t => !t.IsDone);
+    private int activeTodosCount => todos.Count(t => !t.IsDone);
     private string text = string.Empty;
 
     // Helper functions
@@ -94,7 +95,7 @@
         var filteredTodos = FilterTodos();
         if (string.IsNullOrEmpty(filter))
         {
-            if (activeCount == 0)
+            if (activeTodosCount == 0)
             {
                 filteredTodos.ForEach(t => t.IsDone = false);
             }
