@@ -95,14 +95,8 @@
         var filteredTodos = FilterTodos();
         if (string.IsNullOrEmpty(filter))
         {
-            if (activeTodosCount == 0)
-            {
-                filteredTodos.ForEach(t => t.IsDone = false);
-            }
-            else
-            {
-                filteredTodos.ForEach(t => t.IsDone = true);
-            }
+            bool isChecked = activeTodosCount != 0;
+            filteredTodos.ForEach(t => t.IsDone = isChecked);
         }
         else
         {
