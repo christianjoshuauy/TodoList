@@ -78,7 +78,7 @@
     // Event Handlers
     private async void HandleKeyUp(KeyboardEventArgs e)
     {
-        if (e.Key == "Enter")
+        if (e.Key == "Enter" && text.Length > 1)
         {
             todos.Add(new TodoItem
                 {
@@ -96,7 +96,7 @@
     private async void HandleToggleAllClick(MouseEventArgs e)
     {
         var filteredTodos = FilterTodos();
-        if (filter == string.Empty)
+        if (string.IsNullOrEmpty(filter))
         {
             if (activeCount == 0)
             {

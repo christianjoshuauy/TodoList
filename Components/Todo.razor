@@ -42,7 +42,7 @@
     private async void HandleFocusOut(FocusEventArgs e) => await OnStopEditing.InvokeAsync();
     private async void HandleKeyUp(KeyboardEventArgs e)
     {
-        if (e.Key == "Enter")
+        if (e.Key == "Enter" && todo.Title.Length > 1)
         {
             await JSRuntime.InvokeVoidAsync("eval", "document.activeElement.blur()");
             await UpdateStorage.InvokeAsync();
