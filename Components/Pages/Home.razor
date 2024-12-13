@@ -3,7 +3,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @using TestBlazor.Models
 
-<div class="todoapp">
+<section class="todoapp">
     <header class="header">
         <h1>todos</h1>
         <div class="input-container">
@@ -14,12 +14,13 @@
     <main>
         <div class="toggle-all-container">
             <input type="checkbox" class="toggle-all">
-            <label for="toggle-all">Toggle All Input</label>
+            <label class="toggle-all-label">Toggle All Input</label>
         </div>
         <ul class="todo-list">
             @foreach (var todo in FilterTodos())
             {
-                <Todo todo="todo" RemoveItem="RemoveItem" UpdateStorage="UpdateStorage" />
+                <Todo todo="todo" RemoveItem="RemoveItem" UpdateStorage="UpdateStorage" IsEditing="todo == editingTodo"
+                    OnStartEditing="SetEditingTodo" OnStopEditing="ClearEditingTodo" />
             }
         </ul>
     </main>
@@ -41,13 +42,7 @@
             <button class="clear-completed" @onclick="ClearCompleted">Clear completed</button>
         </footer>
     }
-</div>
-
-<footer class="info">
-    <p>Double-click to edit a todo</p>
-    <p>Created by the TodoMVC Team</p>
-    <p>Part of <a href="#">TodoMVC</a></p>
-</footer>
+</section>
 
 @code {
     [Parameter]
@@ -55,6 +50,7 @@
     private List<TodoItem> todos = new();
     private int activeCount => todos.Count(t => !t.IsDone);
     private string text = string.Empty;
+    private TodoItem? editingTodo;
 
     // Helper functions
     private List<TodoItem> FilterTodos()
@@ -98,6 +94,13 @@
         await UpdateStorage();
     }
 
+    //Toggle all logic (assume todos is filtered)
+    //if filter == "" ?
+    // activeCount == 0 ?
+    // todos.ForEach(t => t.IsDone = false)
+    // : todos.ForEach(t => t.IsDone = true)
+    // : todos.ForEach(t => t.IsDone = !t.IsDone)
+
     // Child function parameters
     public async void RemoveItem(TodoItem todo)
     {
@@ -105,4 +108,7 @@
         await UpdateStorage();
     }
 
+    // Toggle editing
+    private void SetEditingTodo(TodoItem todo) => editingTodo = todo;
+    private void ClearEditingTodo() => editingTodo = null;
 }
