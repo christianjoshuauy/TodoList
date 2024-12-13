@@ -35,13 +35,13 @@
     private ElementReference editInput;
     private async Task OnRemoveClick(MouseEventArgs e) => await RemoveItem.InvokeAsync(todo);
     private async void UpdateCheckbox() => await UpdateStorage.InvokeAsync();
-    private async void HandleDoubleClick(MouseEventArgs e)
+    private async Task HandleDoubleClick(MouseEventArgs e)
     {
         await OnStartEditing.InvokeAsync(todo);
         focusRequested = true;
     }
-    private async void HandleEditBlur(FocusEventArgs e) => await OnStopEditing.InvokeAsync();
-    private async void HandleKeyUp(KeyboardEventArgs e)
+    private async Task HandleEditBlur(FocusEventArgs e) => await OnStopEditing.InvokeAsync();
+    private async Task HandleKeyUp(KeyboardEventArgs e)
     {
         if (e.Key == "Enter" && todo.Title.Length > 1)
         {

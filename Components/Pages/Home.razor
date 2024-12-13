@@ -13,7 +13,7 @@
         </div>
     </header>
     <main>
-        @if (todos.Count != 0)
+        @if (FilterTodos().Count != 0)
         {
             <div class="toggle-all-container">
                 <input type="checkbox" class="toggle-all" @onclick="HandleToggleAllClick">
@@ -37,7 +37,8 @@
                     <NavLink href="/completed" ActiveClass="selected">Completed</NavLink>
                 </li>
             </ul>
-            <button class="clear-completed" @onclick="ClearCompleted">Clear completed</button>
+            <button class="clear-completed" @onclick="ClearCompleted" disabled="@(activeCount == todos.Count)">Clear
+                completed</button>
         </footer>
     }
 </section>

@@ -83,6 +83,10 @@
   transform: rotate(90deg);
 }
 
+.toggle-all:checked + label::before {
+  color: #484848;
+}
+
 .footer {
   border: 1px solid #e6e6e6;
   font-size: 15px;
@@ -137,4 +141,8 @@
 
 .clear-completed:hover {
   text-decoration: underline;
+}
+
+.clear-completed:disabled {
+  color: inherit;
 }
