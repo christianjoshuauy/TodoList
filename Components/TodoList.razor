@@ -2,11 +2,10 @@
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <ul class="todo-list">
-    @foreach (var todo in FilterTodos())
-    {
+    <Virtualize Items="FilterTodos()" Context="todo">
         <Todo todo="todo" RemoveItem="RemoveItem" UpdateStorage="UpdateStorage" IsEditing="todo == editingTodo"
             OnStartEditing="SetEditingTodo" OnStopEditing="ClearEditingTodo" />
-    }
+    </Virtualize>
 </ul>
 @code {
     [Parameter]

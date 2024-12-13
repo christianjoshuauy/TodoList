@@ -6,7 +6,7 @@
         {
             <div class="input-container">
                 <input class="edit" @ref="editInput" type="text" @bind="todo.Title" @onkeyup="HandleKeyUp"
-                    @onfocusout="HandleFocusOut">
+                    @onblur="HandleEditBlur">
             </div>
         }
         else
@@ -40,7 +40,7 @@
         await OnStartEditing.InvokeAsync(todo);
         focusRequested = true;
     }
-    private async void HandleFocusOut(FocusEventArgs e) => await OnStopEditing.InvokeAsync();
+    private async void HandleEditBlur(FocusEventArgs e) => await OnStopEditing.InvokeAsync();
     private async void HandleKeyUp(KeyboardEventArgs e)
     {
         if (e.Key == "Enter" && todo.Title.Length > 1)
