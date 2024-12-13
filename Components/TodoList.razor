@@ -16,7 +16,7 @@
     private TodoItem? editingTodo;
 
     // Child function parameters
-    public async void RemoveItem(TodoItem todo)
+    public async Task RemoveItem(TodoItem todo)
     {
         Todos.Remove(todo);
         await UpdateStorage.InvokeAsync();
