@@ -52,12 +52,13 @@
 
 .toggle-all {
   border: none;
-  bottom: 100%;
+  bottom: 84.5%;
   opacity: 0;
   position: absolute;
   height: 60px !important;
-  right: auto !important;
+  right: 92% !important;
   width: 40px !important;
+  z-index: 2;
 }
 
 .toggle-all + label {
@@ -68,7 +69,7 @@
   justify-content: center;
   left: 0;
   position: absolute;
-  top: -65px;
+  top: 0px;
   width: 45px;
 }
 
