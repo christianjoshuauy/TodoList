@@ -1,5 +1,6 @@
 using TestBlazor.Components;
 using Blazored.LocalStorage;
+using TestBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<TodoService>();
 
 var app = builder.Build();
 

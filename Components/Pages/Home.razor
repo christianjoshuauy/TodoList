@@ -1,6 +1,7 @@
 ﻿@page "/{filter?}"
 @rendermode InteractiveServer
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@using TestBlazor.Services
+@inject TodoService TodoService
 @using TestBlazor.Models
 
 <section class="todoapp">
@@ -58,21 +59,20 @@
             _ => todos
         };
     }
-    private async Task UpdateStorage() => await LocalStorage.SetItemAsync("todos", todos);
+    private async Task UpdateStorage() => await TodoService.SaveTodos(todos);
 
     // Lifecycle functions
-    protected override async void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            todos = await LocalStorage.GetItemAsync<List<TodoItem>>("todos") ?? todos;
-
+            todos = await TodoService.LoadTodos();
             StateHasChanged();
         }
     }
 
     // Event Handlers
-    private async void HandleNewTodoKeyUp(KeyboardEventArgs e)
+    private async Task HandleNewTodoKeyUp(KeyboardEventArgs e)
     {
         if (e.Key == "Enter" && text.Length > 1)
         {
@@ -86,10 +86,9 @@
     }
     private async Task ClearCompleted(MouseEventArgs e)
     {
-        todos.RemoveAll(t => t.IsDone);
-        await UpdateStorage();
+        await TodoService.ClearCompleted(todos);
     }
-    private async void HandleToggleAllClick(MouseEventArgs e)
+    private async Task HandleToggleAllClick(MouseEventArgs e)
     {
         var filteredTodos = FilterTodos();
         if (string.IsNullOrEmpty(filter))
