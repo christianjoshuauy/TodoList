@@ -16,7 +16,7 @@
         @if (FilterTodos().Count != 0)
         {
             <div class="toggle-all-container">
-                <input type="checkbox" class="toggle-all" @onclick="HandleToggleAllClick">
+                <input type="checkbox" class="toggle-all" @onclick="HandleToggleAllClick" checked="@(activeCount == 0)">
                 <label class="toggle-all-label">Toggle All Input</label>
             </div>
         }
