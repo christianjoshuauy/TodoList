@@ -98,7 +98,7 @@
             bool isChecked = activeTodosCount != 0;
             filteredTodos.ForEach(t => t.IsDone = isChecked);
         }
-        else
+        else if (filter == "active" || filter == "completed")
         {
             filteredTodos.ForEach(t => t.IsDone = !t.IsDone);
         }
